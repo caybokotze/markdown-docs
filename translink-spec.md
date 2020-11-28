@@ -3,7 +3,8 @@
 # Translink Specificications Document
 
 *Translink is a CRM focused on solving the problems faced by logistics companies in the modern day. The specifications outlined in the following document exist to solve those problems for small to medium sized logistics firms.*
-
+## ERD
+[![N|Solid](https://raw.githubusercontent.com/mergeafrica/public-resources/master/translink/erd/translink_crm.png)](https://translink.merge.africa)
 ### Definition of User roles throughout the application:
 - Administrator
 - Driver
@@ -11,6 +12,17 @@
 - Support Staff
 - Accounting
 - Executive Members
+- 
+
+### Core features description:
+The core features of the translink CRM are to achieve the following:
+- Record a listing of shipments that companies make.
+- Record shipment metrics.
+- Keep track of shipments.
+- Keep track of drivers.
+- Create efficient trip plans, and route plans for shipments to save cost.
+
+*In essence the system comes down to having the ability to create shipments, which contain shipment information (weight, volume, item description, title) and creating trips, which allow the users of the system to plan out a delivery schedule for trips. Shipments can be created initially, either manually or automatically, then those shipment items are added to a trip.  A trip is a representation of a truck hauling items to the different locations where they need to be. Every stop could represent one or more shipment items. A trip should normally have at least one driver and one vehicle associated with it. A trip also contains a route plan, which is optimized to save the company cost by having a nice effective way to track when shipments should be delivered and how long it should take, how much miliage should be incurred, etc... Call support agents can then follow up on shipments that have not been delivered when they have meant to be delivered. Drivers should tick off shipments on trips when they are delivered to provide feedback on progress and to make it easier for the company and customers to track deliveries.*
 
 # Login / Logout
 ### All users
@@ -37,157 +49,54 @@
 > A site manager should not be allowed to delete any information without administrative permission.
 
 ### Support Staff
-> 
-_Important Notes:_
+> Should be allowed to view support ticket items and respond to support queries.
 
+> Should be able to view the shipments that are currently out.
 
+### Workflow Diagram
+[![N|Solid](https://raw.githubusercontent.com/mergeafrica/public-resources/master/translink/flow-diagrams/Register.png)](https://translink.merge.africa)
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+# Add Shipment
+_Management of shipments are one of the core translink features. Managing shipments should be easy for the users of the system to add new products to a shipment and allocate a vehicle to the shipment that needs to be made._
 
-This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
+> A shipment number should be automatically generated and displayed for user reference.
 
-### Tech
+> A user should be able to select a product to be shipped on the shipment form.
 
-Dillinger uses a number of open source projects to work properly:
+> A user should be able to assign a vehicle (by license plate number) to a shipment.
 
-* [AngularJS] - HTML enhanced for web apps!
-* [Ace Editor] - awesome web-based text editor
-* [markdown-it] - Markdown parser done right. Fast and easy to extend.
-* [Twitter Bootstrap] - great UI boilerplate for modern web apps
-* [node.js] - evented I/O for the backend
-* [Express] - fast node.js network app framework [@tjholowaychuk]
-* [Gulp] - the streaming build system
-* [Breakdance](https://breakdance.github.io/breakdance/) - HTML to Markdown converter
-* [jQuery] - duh
+> A user should be able to select a driver that should be allocated to a specific shipment.
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
+> A user should be able to add an estimated distance to the shipment. (This data can also be prepulated using the google maps api.)
 
-### Installation
+> A user should be able to select a departure date.
 
-Dillinger requires [Node.js](https://nodejs.org/) v4+ to run.
+> As a user I expect the delivery date to be autofilled, and can be corrected if necessary.
 
-Install the dependencies and devDependencies and start the server.
+### Workflow
+[![N|Solid](https://raw.githubusercontent.com/caybokotze/markdown-docs/main/shipment.png)](https://translink.merge.africa)
 
-# Postbucket
-> Postbucket is a open source alternative to services like formspree, usebasin, etc. You can set this project up as a means to accept form data from static sites.
+# Add Trip
+_The trip builder is the feature that will allow logistics companies / curriers to be able to plan out the trips that they would like to make and all of the stops that will need to be made to make the delivery._
 
-### Todo's
-- [ ] Setup Controller
-- [ ] Implement logic to catch "from site" and "recipient"
-- [ ] Set up Entity Framework with MySql
-- [ ] Send out SMS / Email notifications on submission.
+> A user should be able to create a trip. The trip number should be autogenerated and displayed for user reference.
 
-### Features to look at later
-- [ ] Create a user interface to sign up and log in to the system.
-- [ ] Create a dashboard to view all the form submissions that have been made.
-- [ ] Create a donations page.
+> A user should be able to set the departure date for the trip.
 
-## Setup
-```sh
-$ npm install
-$ npm run build
-$ npm run start
-```
+> A user should be able to allocate a driver to the trip.
 
-### Contributors
-[@itsjessicajane](https://github.com/itsjessicajane)
-[@caybokotze](https://github.com/caybokotze)
+> A user should be able to allocate a vehicle to the trip.
 
-For production environments...
+> The total distance of the trip should be calculated from all the shipments that are onboard.
 
-```sh
-$ npm install --production
-$ NODE_ENV=production node app
-```
+> A stop should be created for every shipment.
 
-### Plugins
+> A route for a planned trip should be created where shipment deliveries are as close to each other as possible. This can be done manually as well, however eventually it can be automated as well (Google distance calculator / trip delivery estimate)
 
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
+> When the trip has been created, the route planner for that trip should appear.
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+> Estimates for a trip, such as estimated fuel consumption, distance, etc can automatically be calculated based on metrics from within the shipments in the trip.
 
-
-### Development
-
-Want to contribute? Great!
-
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
-
-Open your favorite Terminal and run these commands.
-
-First Tab:
-```sh
-$ node app
-```
-
-Second Tab:
-```sh
-$ gulp watch
-```
-
-(optional) Third:
-```sh
-$ karma test
-```
-#### Building for source
-For production release:
-```sh
-$ gulp build --prod
-```
-Generating pre-built zip archives for distribution:
-```sh
-$ gulp build dist --prod
-```
-### Docker
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the Dockerfile if necessary. When ready, simply use the Dockerfile to build the image.
-
-```sh
-cd dillinger
-docker build -t joemccann/dillinger:${package.json.version} .
-```
-This will create the dillinger image and pull in the necessary dependencies. Be sure to swap out `${package.json.version}` with the actual version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 8000 of the host to port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart="always" <youruser>/dillinger:${package.json.version}
-```
-
-Verify the deployment by navigating to your server address in your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-#### Kubernetes + Google Cloud
-
-See [KUBERNETES.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md)
-
-
-### Todos
-
- - Write MORE Tests
- - Add Night Mode
-
-License
-----
-
-MIT
+### Workflow diagram
+[![N|Solid](https://raw.githubusercontent.com/caybokotze/markdown-docs/main/trip-planner.png)](https://translink.merge.africa)
 
